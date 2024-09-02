@@ -15,8 +15,10 @@ export class AppComponent {
   constructor(){
     // Creating and Subscribing to an Observable with of:
     const numbers$ = of([1,2,3,4,5]);
-    numbers$.subscribe(number => console.log("Using of", number));
+    numbers$.subscribe(number => console.log("Using of", number)); // Emits an array of numbers at once
 
-    
+    // Working with from:
+    const favColors$ = from(['blue', 'green', 'purple', 'lightblue', 'lemon-green', 'yellow', 'black']);
+    favColors$.subscribe(color => console.log("Using from: ", color)); // Emits each element in the array seperately
   }
 }
