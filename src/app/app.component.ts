@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { from, of } from 'rxjs';
+import { from, interval, of, take } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -15,10 +15,25 @@ export class AppComponent {
   constructor(){
     // Creating and Subscribing to an Observable with of:
     const numbers$ = of([1,2,3,4,5]);
-    numbers$.subscribe(number => console.log("Using of", number)); // Emits an array of numbers at once
+    numbers$.subscribe(number => {
+      console.log("Using of", number)
+      console.log("End of observable for 'of'")
+    }); // Emits an array of numbers at once
 
     // Working with from:
     const favColors$ = from(['blue', 'green', 'purple', 'lightblue', 'lemon-green', 'yellow', 'black']);
-    favColors$.subscribe(color => console.log("Using from: ", color)); // Emits each element in the array seperately
+    favColors$.subscribe(color => {
+      console.log("Using from: ", color)
+      setTimeout(() => {
+        console.log("End of observable for 'from")
+      }, 200)
+    }); // Emits each element in the array seperately
+
+    // Working with interval 
+    const interval$ = interval(1000).pipe(take(5));
+    interval$.subscribe({
+      next: value => console.log(`Value: ${value}, Timestamp: ${new Date().toLocaleTimeString()}`),
+      complete: () => console.log('Interval observable completed')
+    });
   }
 }
